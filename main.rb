@@ -1,8 +1,5 @@
 require_relative 'xee_player'
-require_relative 'game'
+require_relative 'navigation'
 
-game = Game.new("Basically Elder Ring")
-game.intro
-
-
-
+game = Navigation.new('Basically Elder Ring')
+game.navigation
