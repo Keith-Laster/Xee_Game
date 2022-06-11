@@ -1,16 +1,17 @@
 require_relative 'xee_player'
 require_relative 'roll'
 require_relative 'defender'
-require_relative 'game'
+require_relative 'steps'
 
 class Navigation
-include Game
+  include Steps
 
   def initialize(title)
     @title = title
+    @player_name
     @answer = ''
     @step = 0
-    @player
+
     @defender
   end
 
@@ -37,11 +38,11 @@ include Game
         arrive_wedding
       when 5.1
         create_defender
-      when 5.2
-        # add defenderless route from here
+      when 6
+        wedding_crasher
         program_end
       end
-      problem_finder
+      # problem_finder
     end
   end
 
@@ -64,8 +65,6 @@ include Game
     a_plus = a += 1
     puts "THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING #{a_plus} "
   end
-
-  
 
   def program_end
     puts 'PROGRAM END PROGRAM END PROGRAM END'
