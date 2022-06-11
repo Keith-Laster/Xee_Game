@@ -1,44 +1,24 @@
+require_relative 'user_input'
+require_relative 'formatting'
+
 class Roll
   attr_accessor :roll
 
+  include Input
+  include Formatting
+
+  # Had to copy and define again here for scope reasons unkown- ask the maestro
+  def input
+    @answer = gets.chomp.downcase
+  end
+
   def roll
-    @roll = rand(1..2)
+    @roll = rand(1..6)
     @roll
   end
 
-  def die_of_destiny
-    puts "The die of destiny has spoken... You rolled a #{$print_die_roll}"
-  end
-
-  def self.roll_die
-    die_roll = Roll.new
-    $print_die_roll = die_roll.roll
-    puts "scribe 'roll' when ready"
-    user_input
-    if @answer == 'roll'
-      line_spacing
-    else
-      roll_fail
-    end
-  end
-
-  def roll_score(score)
-    die_of_destiny
-    puts $print_die_roll
-    if $print_die_roll.between?(1, score)
-      injure(@player)
-    else
-      formiddable_move
-    end
-    console_pause
-  end
-
-  def roll_fail
-    puts "scribe 'roll' when ready"
-    roll_die
-  end
-
-  def roll_required(number)
-    puts "you'll need to roll a #{number} or higher"
+  if __FILE__ == $0
+    roll_test = Roll.roll_die
+    puts roll_test
   end
 end

@@ -4,6 +4,7 @@ class Enemy
   def initialize(species, health)
     @species = species
     @health = health
+    @is_immoral = true
   end
 
   if __FILE__ == $0

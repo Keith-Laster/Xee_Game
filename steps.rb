@@ -1,11 +1,16 @@
-require_relative 'game'
+require_relative 'user_input'
 require_relative 'combat'
 require_relative 'formatting'
+require_relative 'enemy'
 
 module Steps
-  include Game
   include Combat
   include Formatting
+  include Input
+
+  def ready_fail
+    puts "type 'yes' when ready."
+  end
 
   def navigate_to_step(step)
     @step = step
@@ -91,7 +96,7 @@ module Steps
     when 'misery, please'
       puts "You could have had it all.
       The cut of his jib is so perfect that I might go after him myself. And I'm a humble narrorator!
-      No? Very well. You'll go on without love in this world... cold and alone."
+      No? Very well."
       line_spacing
       navigate_to_step(6)
     end
@@ -104,12 +109,10 @@ module Steps
         \nYou're new defender, Keith, Son of Jerry, lord of Ruby Gems has a health of #{@defender.health} and a strenght of #{@defender.strength}"
     program_end
   end
-  attack_type = {
-    kick: 2,
-    headbutt: 3
-  }
+
   # step 6
   def wedding_crasher
+    line_spacing
     puts "Good cheer and great wine mark the scene before you.
     Just minutes until your to be ushered to your seats you notice just how peacful it all seems.
     Yo're heart begins to pound against your chest.
@@ -118,20 +121,33 @@ module Steps
     The first arrow crashes through the heart of the guest to your left. The empiral swine have come.
     One beast, a cavern dweller, has made his way directly toward you."
     @enemy = Enemy.new('goblin', 40)
-    puts " #{@enemy.species} is approaching with a health of #{@enemy.health}."
+    puts " The #{@enemy.species} is approaching with a health of #{@enemy.health}."
     puts "What will you do? Do you kick it, headbutt it, or throw you're wine in it's face?
       (scribe: 'kick' 'headbutt' or 'wine him')"
-    user_input
-    case @answer
-    when 'kick'
-      attack(attack_type.kick)
-    when 'headbutt'
-      attack(attack_type.headbutt)
-    when 'wine him'
-      wine_him
-    else
-      mispell_bouncer
+    i = 0
+    while @player.health > 0 && @enemy.health > 0
+      puts 'NEXT ATTACK' if i != 0
+      puts "What will you do? Do you kick it, headbutt it, or throw you're wine in it's face?
+      (scribe: 'kick' or 'headbutt' or 'wine him'"
+      user_input
+      case @answer
+      when 'kick'
+        attack($attack_type[:kick])
+      when 'headbutt'
+        attack($attack_type[:headbutt])
+      when 'wine him'
+        wine_him
+      else
+        mispell_bouncer
+      end
+      enemy_move
+      i += 1
     end
-    enemy_move
+    navigate_to_step(7)
   end
+
+  def A_choice
+    puts "You "
+  end
+
 end

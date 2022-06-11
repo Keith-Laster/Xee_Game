@@ -1,6 +1,3 @@
-require_relative 'xee_player'
-require_relative 'roll'
-require_relative 'defender'
 require_relative 'steps'
 
 class Navigation
@@ -40,7 +37,8 @@ class Navigation
         create_defender
       when 6
         wedding_crasher
-        program_end
+      when 7
+        A_choice
       end
       # problem_finder
     end
