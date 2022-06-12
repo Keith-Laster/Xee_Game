@@ -2,6 +2,7 @@ require_relative 'user_input'
 require_relative 'combat'
 require_relative 'formatting'
 require_relative 'enemy'
+require_relative 'defender'
 
 module Steps
   include Combat
@@ -104,10 +105,10 @@ module Steps
 
   # step 5.1
   def create_defender
-    @defender = Defender.new(1000, 1_000_000_000)
+    @defender = Defender.new('Keith', 1000, 1_000_000_000)
     puts "You're new defender is by your side - his loyalty attribute is as high as his strength attribute.
-        \nYou're new defender, Keith, Son of Jerry, lord of Ruby Gems has a health of #{@defender.health} and a strenght of #{@defender.strength}"
-    program_end
+        \nYou're new defender, Keith, Son of Jerry, lord of Ruby Gems has a health of #{@defender_health} and a strenght of #{@defender_strength}"
+    navigate_to_step(6)
   end
 
   # step 6
@@ -119,16 +120,21 @@ module Steps
     You know there is no such thing as peace in this world - only the allusion of it.
     ...
     The first arrow crashes through the heart of the guest to your left. The empiral swine have come.
-    One beast, a cavern dweller, has made his way directly toward you."
+    One beast, a cavern dweller, has made his way directly toward you.\n..."
+
     @enemy = Enemy.new('goblin', 40)
     puts " The #{@enemy.species} is approaching with a health of #{@enemy.health}."
-    puts "What will you do? Do you kick it, headbutt it, or throw you're wine in it's face?
-      (scribe: 'kick' 'headbutt' or 'wine him')"
+
     i = 0
     while @player.health > 0 && @enemy.health > 0
+      break if @answer == 'exit'
+      # This didnt work as expected - gohst of enemy still attacks
+      break if @player.health < 0 || @enemy.health < 0
+
       puts 'NEXT ATTACK' if i != 0
       puts "What will you do? Do you kick it, headbutt it, or throw you're wine in it's face?
-      (scribe: 'kick' or 'headbutt' or 'wine him'"
+      (scribe: 'kick' 'headbutt' or 'wine him'"
+      puts 'TESTY TESTY' while @defender_name == 'Keith'
       user_input
       case @answer
       when 'kick'
@@ -147,7 +153,6 @@ module Steps
   end
 
   def A_choice
-    puts "You "
+    puts 'You '
   end
-
 end

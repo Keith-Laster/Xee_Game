@@ -7,9 +7,39 @@ module Combat
   }
 
   def attack(attack_type)
-    roll_required(attack_type)
-    roll_die
-    roll_score(attack_type)
+    combat_roll_required(attack_type)
+    combat_die
+    combat_roll_score(attack_type)
+  end
+
+  def combat_roll_required(number)
+    puts "you'll need to roll a #{number + 1} or higher."
+  end
+
+  def combat_die
+    Roll.roll_die
+    puts "scribe 'roll' when ready"
+    # how is user_input accessable?
+    user_input
+    if @answer == 'roll'
+      line_spacing
+    else
+      roll_fail
+    end
+  end
+
+  def combat_roll_score(score)
+    die_of_destiny
+    if $print_die_roll.between?(1, score)
+      move_fail
+    else
+      enemy_damage(score)
+    end
+    console_pause
+  end
+
+  def die_of_destiny
+    puts "The die of destiny has spoken... You rolled a #{$print_die_roll}"
   end
 
   def wine_him
@@ -17,9 +47,11 @@ module Combat
     enemy_damage(39)
   end
 
-  def enemy_damage(pain_points)
+  def enemy_damage(score)
+    pain_points = (5 * score) + ($print_die_roll * 1.5)
     @enemy.health -= pain_points
-    puts "you're enemy has sustained #{pain_points} points of damage. Enemy health = #{@enemy.health}."
+    puts "You're attack was successfull.
+    You're enemy has sustained #{pain_points} points of damage. Enemy health = #{@enemy.health}.\n.."
   end
 
   def enemy_move
@@ -40,20 +72,25 @@ module Combat
 
   def jump_back
     puts "A cowardly choice... but you are light on your feet! You'll need to roll a 3 or higher."
-    roll_die
+    combat_die
     snake_roll_score(3)
   end
 
   def throat_reach
     puts "....\n....\n....\nSo you're a bold one? Such a fool-hearty move will take roll of 4 or higher."
-    roll_die
+    combat_die
     snake_roll_score(4)
   end
 
   def stay_still
     puts "So, you're a total panzy. Very well. You'll need a roll of 2 or higher."
-    roll_die
+    combat_die
     snake_roll_score(2)
+  end
+
+  def combat_roll_fail
+    puts "scribe 'roll' when ready"
+    combat_die
   end
 
   def mispell_bouncer
@@ -82,22 +119,6 @@ module Combat
     puts "Your move failed. You're opponent sustained no damage."
   end
 
-  def die_of_destiny
-    puts "The die of destiny has spoken... You rolled a #{$print_die_roll}"
-  end
-
-  def roll_die
-    die_roll = Roll.new
-    $print_die_roll = die_roll.roll
-    puts "scribe 'roll' when ready"
-    @answer = gets.chomp.downcase
-    if @answer == 'roll'
-      line_spacing
-    else
-      roll_fail
-    end
-  end
-
   def snake_roll_score(score)
     die_of_destiny
     puts $print_die_roll
@@ -107,25 +128,5 @@ module Combat
       snake_formiddable_move
     end
     console_pause
-  end
-
-  def roll_score(score)
-    die_of_destiny
-    if $print_die_roll.between?(1, score)
-      move_fail
-    else
-      enemy_damage(20)
-    end
-
-    console_pause
-  end
-
-  def roll_fail
-    puts "scribe 'roll' when ready"
-    roll_die
-  end
-
-  def roll_required(number)
-    puts "you'll need to roll a #{number} or higher"
   end
 end
