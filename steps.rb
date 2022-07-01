@@ -51,14 +51,17 @@ module Steps
 
   # step 1.3
   def bouncer
-    puts "Ahh #{@player_name} it appears you are not on the guestlist and are therefore an emperial spy and will need to be hung. That is.. unlesss you spelled your name wrong? (try either 'xeenyia lor laster' or 'quit')"
+    puts "Ahh #{@player_name} it appears you are not on the guestlist
+    and are therefore an emperial spy and will need to be hung.
+    That is.. unlesss you spelled your name wrong?
+    (try either 'xeenyia lor laster' or 'quit')"
     get_user_name
   end
 
   # step 2
   def create_player
     @player = Player.new("#{@player_name.capitalize}")
-    puts "Welcome to dead man's forest, #{@player.name}. Your current health is #{@player.health}."
+    puts "...\nWelcome to dead man's forest, #{@player.name}. Your current health is #{@player.health}."
     navigate_to_step(3)
   end
 
@@ -66,20 +69,30 @@ module Steps
   def woods_to_wedding
     puts "\n...The light in the distance grows with eachs step.
     And soon you hear a sound in the distance you have not heard in half an age...laughter."
-    puts "But at your feet you notice a red-eyed serpant.
+    puts "\nBut at your feet you notice a red-eyed serpant.
     Do you ('jump back' 'reach for its throat' or 'stay perfectly still'?)"
     @answer = gets.chomp.downcase
     case @answer
     when 'jump back'
       jump_back
+      navigate_to_step(4)
     when 'reach for its throat'
       throat_reach
+      navigate_to_step(4)
     when 'stay perfectly still'
       stay_still
+      navigate_to_step(4)
     else
-      mispell_bouncer
+      navigate_to_step(3.1)
     end
-    navigate_to_step(4)
+  end
+
+  # step 3.1
+  def mispell_bouncer
+    puts 'It appears you cant spell. Log off and go back to school, you twit.'
+    puts '...'
+    puts 'but if you must persist...'
+    triple_injure(@player)
   end
 
   # step 4

@@ -93,22 +93,13 @@ module Combat
     combat_die
   end
 
-  def mispell_bouncer
-    puts 'It appears you cant spell. Log off and go back to school, you twit.'
-    puts '...'
-    puts 'but if you must persist...'
-    triple_injure(@player)
-  end
-
   def injure(player)
     player.health -= 5
     puts "\n #{player.name} was injured. Health is now #{player.health}"
   end
 
-  def triple_injure(player)
-    injure(player)
-    injure(player)
-    injure(player)
+  def triple_injure(_player)
+    3.times { |player| injure(player) }
   end
 
   def snake_formiddable_move
@@ -128,5 +119,11 @@ module Combat
       snake_formiddable_move
     end
     console_pause
+  end
+
+  def problem_finder
+    a = 1
+    a_plus = a += 1
+    puts "THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING #{a_plus} "
   end
 end

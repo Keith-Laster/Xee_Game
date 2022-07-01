@@ -31,6 +31,9 @@ class Navigation
         create_player
       when 3
         woods_to_wedding
+      when 3.1
+        mispell_bouncer
+        navigate_to_step(4)
       when 4
         arrive_wedding
       when 5.1
@@ -45,7 +48,6 @@ class Navigation
   end
 
   def jump_to
-    puts @answer
     case @answer
     when 'tw1'
       @step = 1
@@ -55,6 +57,10 @@ class Navigation
       @step = 3
     when 'tw4'
       @step = 4
+    when 'tw5'
+      @step = 5
+    when 'tw6'
+      @step = 6
     end
   end
 
