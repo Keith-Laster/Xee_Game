@@ -12,10 +12,11 @@ class Navigation
     @defender
   end
 
-  def navigation
+  def navigation_station
     loop do
       break if @answer == 'exit'
 
+      # why does the break not work during get_user_name?
       jump_to
 
       case @step
@@ -62,12 +63,6 @@ class Navigation
     when 'tw6'
       @step = 6
     end
-  end
-
-  def problem_finder
-    a = 1
-    a_plus = a += 1
-    puts "THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING -- THIS IS PRINTING #{a_plus} "
   end
 
   def program_end

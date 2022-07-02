@@ -3,6 +3,7 @@ require_relative 'combat'
 require_relative 'formatting'
 require_relative 'enemy'
 require_relative 'defender'
+require_relative 'open_methods'
 
 module Steps
   include Combat
@@ -67,7 +68,7 @@ module Steps
 
   # step 3
   def woods_to_wedding
-    puts "\n...The light in the distance grows with eachs step.
+    puts "\n...The light in the distance grows with each step.
     And soon you hear a sound in the distance you have not heard in half an age...laughter."
     puts "\nBut at your feet you notice a red-eyed serpant.
     Do you ('jump back' 'reach for its throat' or 'stay perfectly still'?)"
@@ -159,7 +160,7 @@ module Steps
       else
         mispell_bouncer
       end
-      enemy_move
+      enemy_move if @enemy.health > 0
       i += 1
     end
     navigate_to_step(7)
